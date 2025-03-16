@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bereketli Köy - Doğal Köy Ürünleri</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700|Poppins:400,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #F28123;
+            --dark-color: #051922;
+        }
+        
+        html { 
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px; /* Navbar height + some padding */
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            padding-top: 76px; /* Navbar height */
+        }
+
+        section {
+            scroll-margin-top: 80px; /* Navbar height + some padding */
+        }
+        
+        .navbar {
+            background-color: var(--dark-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            height: 76px; /* Fixed navbar height */
+        }
+        
+        .navbar-brand {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-brand:hover { color: var(--primary-color); }
+        
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            color: white;
+            background-color: transparent;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: none;
+            position: relative;
+            width: 24px;
+            height: 2px;
+            background-color: white;
+            display: inline-block;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 2px;
+            background-color: white;
+            left: 0;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .navbar-toggler-icon::before {
+            top: -8px;
+        }
+        
+        .navbar-toggler-icon::after {
+            bottom: -8px;
+        }
+        
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+            background-color: transparent;
+        }
+        
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+            transform: rotate(45deg);
+            top: 0;
+        }
+        
+        .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+            transform: rotate(-45deg);
+            bottom: 0;
+        }
+        
+        .nav-link {
+            color: white !important;
+            margin: 0 1rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .nav-link:hover::after { width: 100%; }
+        
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background-color: var(--dark-color);
+                padding: 1.5rem;
+                margin-top: 1rem;
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                max-height: 0;
+                overflow-y: hidden;
+                transition: all 0.3s ease-in-out;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                margin-left: 1rem;
+                margin-right: 1rem;
+            }
+            
+            .navbar-collapse.show {
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            
+            .nav-link {
+                margin: 0.8rem 0;
+                padding: 0.8rem 1.5rem;
+                border-radius: 8px;
+                font-size: 1.1rem;
+                opacity: 0.9;
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+            
+            .nav-link:hover { 
+                background-color: var(--primary-color);
+                opacity: 1;
+                transform: translateX(5px);
+            }
+            
+            .nav-link.active {
+                background-color: var(--primary-color);
+                opacity: 1;
+            }
+            
+            .nav-link::after { display: none; }
+            
+            .navbar-nav { 
+                text-align: center;
+                padding: 0.5rem 0;
+                margin: 0;
+            }
+
+            .nav-item:last-child .nav-link {
+                margin-bottom: 0;
+            }
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(5, 25, 34, 0.3), rgba(5, 25, 34, 0.5)), 
+                        url('assets/img/hero-bg-3.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 3.5rem;
+            background: rgba(5, 25, 34, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out;
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-subtitle {
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-description {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-btn {
+            font-size: 1.2rem;
+            padding: 1.2rem 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background-color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-btn:hover {
+            background-color: transparent;
+            color: #fff;
+            border-color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .section-title {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .product-card {
+            border: 1px solid #eee;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial {
+            background-color: #f5f5f5;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .client-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-section {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 5rem 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 2rem;
+        }
+        
+        .btn-primary:hover {
+            background-color: #e07012;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin: 0 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.8rem; }
+            .hero-description { font-size: 1.5rem; }
+            .hero-btn {
+                font-size: 1rem;
+                padding: 1rem 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Bereketli Köy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Anasayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products">Ürünler</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">Hakkımızda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">İletişim</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-section">
+        <div class="container text-center hero-content">
+            <h2 class="hero-subtitle">Doğal & Taze</h2>
+            <h1 class="hero-title">Lezzetli Adaklık Kuzular</h1>
+            <p class="hero-description">ve Köy Ürünleri</p>
+            <a href="#products" class="btn btn-primary btn-lg hero-btn">
+                Ürünlerimizi Keşfedin
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="products" class="py-5">
+        <div class="container">
+            <div class="section-title">
+                <h2>Ürünlerimiz</h2>
+                <p>Bereketli Köy olarak, yüksek kaliteli adaklık kuzular, doğal süt ve geleneksel süt ürünlerimizi sizlere sunuyoruz.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="assets/img/products/product-img-1.jpg" alt="Koç" class="product-image">
+                        <h3>Koç</h3>
+                        <p class="price">8500 ₺ / Kg</p>
+                        <button class="btn btn-primary" onclick="showProductDetails('Koç', 'Per Kg', 8500)">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="assets/img/products/product-img-2.jpg" alt="Koyun" class="product-image">
+                        <h3>Koyun</h3>
+                        <p class="price">6000 ₺ / Kg</p>
+                        <button class="btn btn-primary" onclick="showProductDetails('Koyun', 'Per Kg', 6000)">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="assets/img/products/product-img-3.jpg" alt="Keçi" class="product-image">
+                        <h3>Keçi</h3>
+                        <p class="price">8000 ₺ / Kg</p>
+                        <button class="btn btn-primary" onclick="showProductDetails('Keçi', 'Per Kg', 8000)">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg" alt="Köy Peyniri" class="product-image">
+                        <h3>Köy Peyniri</h3>
+                        <p class="price">450 ₺ / Kg</p>
+                        <p class="text-muted mb-3">%100 Doğal Koyun Sütünden</p>
+                        <button class="btn btn-primary" onclick="showProductDetails('Köy Peyniri', 'Per Kg', 450)">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg" alt="Tereyağı" class="product-image">
+                        <h3>Köy Tereyağı</h3>
+                        <p class="price">800 ₺ / Kg</p>
+                        <p class="text-muted mb-3">El Yapımı Taze Tereyağı</p>
+                        <button class="btn btn-primary" onclick="showProductDetails('Köy Tereyağı', 'Per Kg', 800)">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <img src="https://images.pexels.com/photos/373882/pexels-photo-373882.jpeg" alt="Yoğurt" class="product-image">
+                        <h3>Köy Yoğurdu</h3>
+                        <p class="price">120 ₺ / Kg</p>
+                        <p class="text-muted mb-3">Mayalı Doğal Yoğurt</p>
+                        <button class="btn btn-primary" onclick="showProductDetails('Köy Yoğurdu', 'Per Kg', 120)">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <img src="assets/img/a.jpg" alt="About Us" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h2><span class="orange-text">Bereketli Köy'üz</span></h2>
+                    <p>1999'dan beri, Bereketli Köy olarak köyümüzün bereketini ve doğallığını sizlere sunuyoruz. Doğal ortamda özenle yetiştirilen adaklık kuzularımız ve köy ürünlerimizle, sofralarınıza en kaliteli ve taze ürünleri getiriyoruz.</p>
+                    <p>Her bir ürünümüz, geleneklerimize bağlı kalarak ve doğayı koruyarak üretilir. Köyümüzün sağlıklı ve lezzet dolu ürünleriyle, doğal yaşamın tadını çıkartın.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="py-5">
+        <div class="container">
+            <div class="section-title">
+                <h2>Müşteri Yorumları</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <img src="assets/img/avaters/avatar1.png" alt="Zeynep D." class="client-image">
+                        <h4>Zeynep D.</h4>
+                        <p>"Bereketli Köy'den aldığımız kuzu çok sağlıklıydı. Ayrıca, müşteri hizmetleri de çok ilgiliydi. Adağımızı gönül rahatlığıyla yerine getirdik."</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <img src="assets/img/avaters/avatar2.png" alt="Ahmet K." class="client-image">
+                        <h4>Ahmet K.</h4>
+                        <p>"Bereketli Köy'den aldığımız adaklık kuzular hem çok sağlıklı hem de çok uygun fiyatlıydı. Hizmet kalitesi gerçekten çok iyi."</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <img src="assets/img/avaters/avatar3.png" alt="Hasan Y." class="client-image">
+                        <h4>Hasan Y.</h4>
+                        <p>"İlk defa internet üzerinden adaklık kuzu satın aldım ve tereddütlerim vardı. Ancak Bereketli Köy, her aşamada bilgilendirme yaparak güvenimi kazandı."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>İletişime Geçin</h2>
+                    <p>Sorularınız için bize ulaşın:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Adres: Bereketli Köy, Türkiye</li>
+                        <li><i class="fas fa-phone me-2"></i> Telefon: +90 555 123 4567</li>
+                        <li><i class="fas fa-envelope me-2"></i> E-posta: info@bereketlikoy.com</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Adınız">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="E-posta Adresiniz">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="4" placeholder="Mesajınız"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-icons mb-4">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p>&copy; 2024 Bereketli Köy. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ürün Detayları</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 id="modalProductName"></h3>
+                    <p id="modalProductPrice"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary">Sepete Ekle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu animation
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        const navbar = document.querySelector('.navbar');
+
+        navbarToggler.addEventListener('click', function() {
+            navbarCollapse.classList.toggle('show');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInside = navbarToggler.contains(event.target) || navbarCollapse.contains(event.target);
+            if (!isClickInside && navbarCollapse.classList.contains('show')) {
+                navbarCollapse.classList.remove('show');
+                navbarToggler.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Smooth scroll with offset for navbar height
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                // Close mobile menu
+                if (navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                    navbarToggler.setAttribute('aria-expanded', 'false');
+                }
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const navbarHeight = navbar.offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = targetPosition - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        function showProductDetails(name, unit, price) {
+            const modal = new bootstrap.Modal(document.getElementById('productModal'));
+            document.getElementById('modalProductName').innerText = name;
+            document.getElementById('modalProductPrice').innerHTML = `${price} ₺ ${unit}`;
+            modal.show();
+        }
+    </script>
+</body>
+</html> 
